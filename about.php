@@ -19,8 +19,10 @@
         Here you can post pictures of your pet and comment on other users photos!
     </span>
 </center>
-    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/templates/footer.html'); ?>
 </body>
+<footer>
+    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/templates/footer.html'); ?>
+</footer>
 </html>
 
 

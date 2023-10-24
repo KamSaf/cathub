@@ -8,13 +8,15 @@
     <title>PHP Blog</title>
 </head>
 <header>
-<?php include($_SERVER['DOCUMENT_ROOT']. '/blog/templates/header.html'); ?>
+    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/templates/header.html'); ?>
 </header>
 <body>
     
     <center><h1 style="margin-top: 100px;">Hello!</h1></center>
-    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/templates/footer.html'); ?>
 </body>
+<footer>
+    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/templates/footer.html'); ?>
+</footer>
 </html>
 
 
