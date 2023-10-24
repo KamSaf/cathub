@@ -1,18 +1,17 @@
 <?php
-// if ($_SERVER["REQUESTED_METHOD"] == "POST" && isset($_POST['submit'])) {
-//     $email = filter_input(INPUT_POST, 'email_input', FILTER_SANITIZE_SPECIAL_CHARS);
-//     $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
+        $email = filter_input(INPUT_POST, 'email_input', FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
 
-//     echo $email;
-//     echo '<br>';
-//     echo $password;
-
-    // if ($wpisane_dane === "1234") {
-    //     // Przekierowanie na inną stronę
-    //     header("Location: inna_strona.php");
-    //     exit;
-    // }
-// }
+        if ($email == "kamil@email.com" && $password == "test123") {
+            header("Location: home.php");
+            exit;
+        } else{
+            $provided_email = $email;
+            $wrong_email = (!$email) ? true : false;
+            $wrong_password = ($password != "test123") ? true : false;
+        }
+    }
 ?>
 
 
@@ -26,50 +25,47 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <title>PHP Blog</title>
 </head>
+
 <header>
     <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/templates/header.html'); ?>
 </header>
+
 <body>
-    
-<div class="d-flex justify-content-center">
-    <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" style="margin-top: 90px;" >
-        <div class="mb-3">
-            <label for="email_input" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email_input" name="email_input">
-        </div>
-        <div class="mb-3">
-            <label for="password_input" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password_input" name="password_input">
-        </div>
-        <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-success align-center" value="login" name="submit">Log in</button>
-        </div>
-        <div style="margin-top: 15px;" class="pt-3">
-                <small class="text-muted">Need an account? <a class="ml-2" href="#">Join now!</a></small>
-        </div>
-    </form>
-</div>
-
-<?php
-
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
-    $email = filter_input(INPUT_POST, 'email_input', FILTER_SANITIZE_SPECIAL_CHARS);
-    $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
-
-    if ($password == "test123") {
-        header("Location: home.php");
-        exit;
-        // echo 'welcome!';
-    } else{
-        echo 'incorrect password!';
-    }
-}
-
-?>
-
-    
+    <div class="d-flex justify-content-center">
+        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" style="margin-top: 90px;" >
+            <div class="mb-3">
+                <label for="email_input" class="form-label">Email address</label>
+                <?php
+                    $email_input = "<input type='email' class='form-control ";
+                    if ($wrong_email)
+                        $email_input .="is-invalid' ";
+                    else if ($provided_email)
+                        $email_input .="' value='{$provided_email}' ";
+                    $email_input .="id='email_input' name='email_input'>";
+                    echo $email_input;
+                ?>
+            </div>
+            <div class="mb-3">
+                <label for="password_input" class="form-label">Password</label>
+                <?php
+                    if ($wrong_password)
+                        echo "<input type='password' class='form-control is-invalid' id='password_input' name='password_input'>";
+                    else
+                        echo "<input type='password' class='form-control' id='password_input' name='password_input'>";
+                ?>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-success align-center" value="login" name="submit">Log in</button>
+            </div>
+            <div style="margin-top: 15px;" class="pt-3">
+                    <small class="text-muted">Need an account? <a class="ml-2" href="#">Join now!</a></small>
+            </div>
+        </form>
+    </div>
 </body>
+
 <footer>
     <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/templates/footer.html'); ?>
 </footer>
+
 </html>
