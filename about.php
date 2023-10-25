@@ -8,7 +8,7 @@
     <title>CatHub 🐱</title>
 </head>
 <header>
-<?php include($_SERVER['DOCUMENT_ROOT']. '/blog/templates/header.html'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT']. '/blog/import/header.php'); ?>
 </header>
 <body>
     
@@ -21,7 +21,7 @@
 </center>
 </body>
 <footer>
-    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/templates/footer.html'); ?>
+    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/import/footer.html'); ?>
 </footer>
 </html>
 

@@ -4,6 +4,8 @@
         $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
 
         if ($email == "kamil@email.com" && $password == "test123") {
+            session_start();
+            $_SESSION['logged'] = true;
             header("Location: home.php");
             exit;
         } else{
@@ -27,7 +29,7 @@
 </head>
 
 <header>
-    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/templates/header.html'); ?>
+    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/import/header.php'); ?>
 </header>
 
 <body>
@@ -65,7 +67,7 @@
 </body>
 
 <footer>
-    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/templates/footer.html'); ?>
+    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/import/footer.html'); ?>
 </footer>
 
 </html>
