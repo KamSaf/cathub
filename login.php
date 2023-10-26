@@ -1,17 +1,20 @@
 <?php
+    $users = [['kamil@email.com', 'haslo1', 'Kamil'], ['slawek@email.com', 'haslo2', 'Sławek'], ['laura@email.com', 'haslo3', 'Laura']]; //placeholder users query
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
         $email = filter_input(INPUT_POST, 'email_input', FILTER_SANITIZE_SPECIAL_CHARS);
         $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
-
-        if ($email == "kamil@email.com" && $password == "test123") {
-            session_start();
-            $_SESSION['logged'] = true;
-            header("Location: home.php");
-            exit;
-        } else{
-            $provided_email = $email;
-            $wrong_email = (!$email) ? true : false;
-            $wrong_password = ($password != "test123") ? true : false;
+        foreach($users as $user){
+            if ($email === $user[0] && $password === $user[1]) {
+                session_start();
+                $_SESSION['logged'] = true;
+                $_SESSION['user_name'] = $user[2];
+                header("Location: home.php");
+                exit;
+            } else{
+                $provided_email = $email;
+                $wrong_email = (!$email) ? true : false;
+                $wrong_password = ($password != $user[1]) ? true : false;
+            }
         }
     }
 ?>
@@ -26,6 +29,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <title>CatHub 🐱</title>
+    <link rel="icon" href="images/facivon.ico" type="image/x-icon">
 </head>
 
 <header>
@@ -34,7 +38,7 @@
 
 <body>
     <div class="d-flex justify-content-center">
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" style="margin-top: 90px;" >
+        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST" style="margin-top: 90px;">
             <div class="mb-3">
                 <label for="email_input" class="form-label">Email address</label>
                 <?php
@@ -43,17 +47,18 @@
                         $email_input .="is-invalid' ";
                     else if ($provided_email)
                         $email_input .="' value='{$provided_email}' ";
-                    $email_input .="id='email_input' name='email_input'>";
+                    $email_input .="id='email_input' name='email_input' required>";
                     echo $email_input;
                 ?>
             </div>
             <div class="mb-3">
                 <label for="password_input" class="form-label">Password</label>
                 <?php
+                    $password_input = "<input type='password' class='form-control"; 
                     if ($wrong_password)
-                        echo "<input type='password' class='form-control is-invalid' id='password_input' name='password_input'>";
-                    else
-                        echo "<input type='password' class='form-control' id='password_input' name='password_input'>";
+                        $password_input .= " is-invalid";
+                    $password_input .= "' id='password_input' name='password_input'>";
+                    echo $password_input;
                 ?>
             </div>
             <div class="d-flex justify-content-center">
