@@ -10,7 +10,7 @@
                 <?php
                     session_start();
                     if ($_SESSION['logged']){
-                        echo "<a class='navbar-brand'>Hello, {$_SESSION['user_name']}!</a>";
+                        echo "<a class='navbar-brand'>Hello, {$_SESSION['logged_user']['username']}!</a>";
                         echo '<button name="logout" style="margin-left: 20px;" class="btn btn-outline-light" href="login.php" >Log out <i class="bi bi-lock"></i></i></button>';
                     }
                     else

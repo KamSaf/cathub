@@ -14,25 +14,25 @@
         include($_SERVER['DOCUMENT_ROOT']. '/blog/import/database.php');
 
         if($conn){
-            if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
-                $email = filter_input(INPUT_POST, 'email_input', FILTER_SANITIZE_SPECIAL_CHARS);
-                $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
-                $login_result = user_login($conn, $email, $password);
+        //     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
+        //         $email = filter_input(INPUT_POST, 'email_input', FILTER_SANITIZE_SPECIAL_CHARS);
+        //         $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
+        //         $login_result = user_login($conn, $email, $password);
     
-                if ($login_result){
-                    session_start();
-                    $_SESSION['logged'] = true;
-                    $_SESSION['logged_user'] = $login_result;
-                    header("Location: home.php");
-                    exit;
-                } else{
-                    $provided_email = $email;
-                    $wrong_email = (!$email) ? true : false;
-                    $wrong_password = ($password != $user[1]) ? true : false;
-                }
-            }
-        } else{
-            show_database_error_modal();
+        //         if ($login_result){
+        //             session_start();
+        //             $_SESSION['logged'] = true;
+        //             $_SESSION['logged_user'] = $login_result;
+        //             header("Location: home.php");
+        //             exit;
+        //         } else{
+        //             $provided_email = $email;
+        //             $wrong_email = (!$email) ? true : false;
+        //             $wrong_password = ($password != $user[1]) ? true : false;
+        //         }
+        //     }
+        // } else{
+        //     show_database_error_modal();
         }
     ?>
 
