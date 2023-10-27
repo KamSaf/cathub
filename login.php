@@ -11,25 +11,14 @@
     </head>
 
     <?php
-        include($_SERVER['DOCUMENT_ROOT']. '/blog/import/database.php');
+        include($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php');
 
         if($conn){
             if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
                 $email = filter_input(INPUT_POST, 'email_input', FILTER_SANITIZE_SPECIAL_CHARS);
                 $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
-                $login_result = user_login($conn, $email, $password);
-    
-                if ($login_result){
-                    session_start();
-                    $_SESSION['logged'] = true;
-                    $_SESSION['logged_user'] = $login_result;
-                    header("Location: home.php");
-                    exit;
-                } else{
-                    $provided_email = $email;
-                    $wrong_email = (!$email) ? true : false;
-                    $wrong_password = ($password != $user[1]) ? true : false;
-                }
+
+                $wrong_data = user_login($conn, $email, $password); // user_login function returns 'true' if logging in didn't succeed
             }
         } else{
             show_database_error_modal();
@@ -37,7 +26,7 @@
     ?>
 
     <header>
-        <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/import/header.php'); ?>
+        <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/include/header.php'); ?>
     </header>
 
     <body>
@@ -47,29 +36,32 @@
                     <label for="email_input" class="form-label">Email address</label>
                     <?php
                         $email_input = "<input type='email' class='form-control ";
-                        if ($wrong_email)
+                        if ($wrong_data)
                             $email_input .="is-invalid' ";
-                        else if ($provided_email)
-                            $email_input .="' value='{$provided_email}' ";
-                        $email_input .="id='email_input' name='email_input' required>";
+                        $email_input .="id='email_input' name='email_input' required value='{$email}'>";
                         echo $email_input;
+                        if ($wrong_data)
+                            echo "<small class='text-danger'>Incorrect password or email</small>";
+                        
                     ?>
                 </div>
                 <div id="password_box" class="mb-3">
                     <label for="password_input" class="form-label">Password</label>
                     <?php
                         $password_input = "<input type='password' class='form-control"; 
-                        if ($wrong_password)
+                        if ($wrong_data)
                             $password_input .= " is-invalid";
                         $password_input .= "' id='password_input' name='password_input'>";
                         echo $password_input;
+                        if ($wrong_data)
+                            echo "<small class='text-danger'>Incorrect password or email</small>";
                     ?>
                 </div>
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-success align-center" value="login" name="submit">Log in</button>
                 </div>
                 <div style="margin-top: 15px;" class="pt-3">
-                        <small class="text-muted">Need an account? <a class="ml-2" href="#">Join now!</a></small>
+                        <small class="text-muted">Need an account? <a class="ml-2" href="register.php">Join now!</a></small>
                 </div>
             </form>
         </div>
@@ -78,7 +70,7 @@
     <footer>
         <?php
             mysqli_close($conn);
-            include($_SERVER['DOCUMENT_ROOT']. '/blog/import/footer.html'); 
+            include($_SERVER['DOCUMENT_ROOT']. '/blog/include/footer.html'); 
         ?>
     </footer>
 </html>

@@ -12,15 +12,20 @@
     }
 
 
-    
+
     function user_login(mysqli $conn, string $email, string $password){
         $active_users_query = "SELECT * FROM users WHERE email = '{$email}' AND is_deleted = false";
         $users = mysqli_query($conn, $active_users_query);
         if (mysqli_num_rows($users) > 0)
             $user = mysqli_fetch_assoc($users);
-            if (password_verify($password, $user['password']))
-                return $user;
-        return null;
+            if (password_verify($password, $user['password'])){
+                session_start();
+                $_SESSION['logged'] = true;
+                $_SESSION['logged_user'] = $user;
+                header("Location: home.php");
+                exit;
+            }
+        return true; // if logging in didn't succeed
     }
 
     function show_database_error_modal(){
@@ -48,4 +53,29 @@
             </script>
         ';
     }
+
+    function check_if_email_used(mysqli $conn, string $email){
+        $used_emails_query = "SELECT email FROM users WHERE is_deleted = false AND email = '{$email}'";
+        $query_result = mysqli_query($conn, $used_emails_query);
+        if (mysqli_num_rows($query_result) > 0)
+            return true;
+        return false;
+    }
+
+    function check_if_username_used(mysqli $conn, string $username){
+        $used_usernames_query = "SELECT username FROM users WHERE is_deleted = false AND username = '{$username}'";
+        $query_result = mysqli_query($conn, $used_usernames_query);
+        if (mysqli_num_rows($query_result) > 0)
+            return true;
+        return false;
+    }
+
+    function create_user(mysqli $conn, string $username, string $email, string $password){
+        echo "success!"; // stworzenie usera w bazie danych, przekierowanie do strony home.php i automatyczne zalogowanie
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
+        $insert_user = "INSERT INTO users (username, password, email) VALUES ('{$username}', '{$password_hash}', '{$email}')";
+        mysqli_query($conn, $insert_user);
+        user_login($conn, $email, $password);
+    }
+
 ?>

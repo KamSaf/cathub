@@ -10,10 +10,10 @@
         <link rel="icon" href="images/facivon.ico" type="image/x-icon">
     </head>
 
-    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/import/database.php'); ?>
+    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php'); ?>
 
     <header>
-        <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/import/header.php'); ?>
+        <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/include/header.php'); ?>
     </header>
 
     <body>
@@ -21,6 +21,10 @@
     </body>
 
     <footer>
-        <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/import/footer.html'); ?>
+        
+        <?php
+            mysqli_close($conn);
+            include($_SERVER['DOCUMENT_ROOT']. '/blog/include/footer.html');
+        ?>
     </footer>
 </html>
