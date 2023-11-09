@@ -14,7 +14,7 @@
 
     # Displays error modal if there is no database connection
     function show_database_error_modal(){
-        include($_SERVER['DOCUMENT_ROOT']. '/blog/include/html/database_error_modal.html');
+        include($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/database_error_modal.html');
     }
 
 ?>

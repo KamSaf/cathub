@@ -10,7 +10,7 @@
         <link rel="icon" href="images/facivon.ico" type="image/x-icon">
     </head>
     <header>
-    <?php require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/header.php'); ?>
+    <?php require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/header.php'); ?>
     </header>
     <body>
         
@@ -23,7 +23,7 @@
     </center>
     </body>
     <footer>
-        <?php require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/html/footer.html'); ?>
+        <?php require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/footer.html'); ?>
     </footer>
 </html>
 

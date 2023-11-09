@@ -11,8 +11,8 @@
     </head>
 
     <?php
-        require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php');
-        require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/auth.php');
+        require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/database.php');
+        require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/auth.php');
 
         if($conn){
             if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
@@ -31,7 +31,7 @@
     ?>
 
     <header>
-        <?php require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/header.php'); ?>
+        <?php require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/header.php'); ?>
     </header>
 
     <body>
@@ -92,7 +92,7 @@
     <footer>
         <?php
             mysqli_close($conn);
-            require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/html/footer.html'); 
+            require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/footer.html'); 
         ?>
     </footer>
 </html>

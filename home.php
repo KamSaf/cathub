@@ -11,12 +11,12 @@
     </head>
 
     <?php 
-        require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php');
-        require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/utils.php');
+        require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/database.php');
+        require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/utils.php');
     ?>
 
     <header>
-        <?php require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/header.php'); ?>
+        <?php require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/header.php'); ?>
     </header>
 
     <body>
@@ -40,7 +40,7 @@
         
         <?php
             mysqli_close($conn);
-            require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/html/footer.html');
+            require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/footer.html');
         ?>
     </footer>
 </html>
