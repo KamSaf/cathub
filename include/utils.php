@@ -31,7 +31,7 @@
                         
                         <b>{$post['reactions']}</b>
                     </span>
-                    <a href='#' class='btn btn-primary float-end'>Comment</a>
+                    <a href='#' class='btn btn-primary float-end'>Comments</a>
                 </div>
                 <div class='card-footer text-muted'>
                     Posted on: {$post['create_date']} by <a href='#'>{$author['username']}</a>
