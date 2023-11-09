@@ -12,6 +12,7 @@
 
     <?php
         require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php');
+        require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/auth.php');
 
         if($conn){
             if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {

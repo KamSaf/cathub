@@ -1,46 +1,16 @@
 <?php
-    # Validates data provided in register form
-    function validate_register_form(mysqli $conn, string $email, string $username, string $password, string $confirm_password){
-        $data_valid = true;
-        $errors = [];
 
-        if (strlen($email) > 256){
-            $data_valid = false;
-            $errors['email_error'] = "This email address is too long.";
-        } else if(check_if_email_used($conn, $email)){
-            $data_valid = false;
-            $errors['email_error'] = "This email address is already used.";
-        }
-
-        if (strlen($username) > 25){
-            $data_valid = false;
-            $errors['username_error'] = "This username is too long (max 25 characters).";
-        } else if(check_if_username_used($conn, $username)){
-            $data_valid = false;
-            $errors['username_error'] = "This username is already used.";
-        }
-
-        if (strlen($password) < 8){
-            $data_valid = false;
-            $errors['password_error'] = "This password is too short (min 8 characters).";
-        }
-
-        if ($password != $confirm_password){
-            $data_valid = false;
-            $errors['password_error'] = "Passwords needs to be identical.";
-            $errors['confirm_password_error'] = "Passwords need to be identical.";
-        }
-
-        return ['success'=>$data_valid, 'errors'=>$errors];
-    }
-
-    # Displays error modal if there is no database connection
-    function show_database_error_modal(){
-        include($_SERVER['DOCUMENT_ROOT']. '/blog/include/html/database_error_modal.html');
+    # Gets posts (either all posts or created by chosen user) from database
+    function load_posts(mysqli $conn, string $user_id=null){
+        if ($user_id)
+            $posts_query = "SELECT * FROM posts WHERE is_deleted = false AND author_id = '{$user_id}' ORDER BY create_date DESC";
+        else
+            $posts_query = "SELECT * FROM posts WHERE is_deleted = false ORDER BY create_date DESC";
+        return mysqli_query($conn, $posts_query);
     }
 
     # Displays provided post
-    function display_post(array $post){
+    function display_post(array $post, mysqli $conn){
         echo "
             <div style='margin-bottom: 60px; background-color: #f8f9fa;' class='card text-center'>
                 <div class='card-header'>
@@ -50,7 +20,14 @@
                     <img src='{$post['image_url']}' alt='post_image' width='500' height='500'>
                     <p style='margin-top: 50px;' class='card-text'>{$post['description']}</p>
                     <span class='float-start'>
-                        <a href='#' style='margin-right: 5px;' class='btn btn-sm btn-outline-success'>I like it! 😻</a>
+        ";
+        if(user_post_relation_exists($conn, $post['author_id'], $post['id'])){
+            echo "<a href='#' style='margin-right: 5px;' class='btn btn-sm btn-success'>I like it! 😻</a>";
+        } else{
+            echo "<a href='#' style='margin-right: 5px;' class='btn btn-sm btn-outline-success'>I like it! 😻</a>";
+        }
+        echo "
+                        
                         <b>{$post['reactions']}</b>
                     </span>
                     <a href='#' class='btn btn-primary float-end'>Comment</a>
@@ -67,7 +44,7 @@
 
     }
 
-    # Checks if user reacted to a post
+    # Checks if user reacted to a post, if yes returns true
     function user_post_relation_exists(mysqli $conn, int $user_id, int $post_id){
 
     }

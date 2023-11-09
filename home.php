@@ -10,7 +10,10 @@
         <link rel="icon" href="images/facivon.ico" type="image/x-icon">
     </head>
 
-    <?php require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php'); ?>
+    <?php 
+        require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php');
+        require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/utils.php');
+    ?>
 
     <header>
         <?php require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/header.php'); ?>
@@ -24,10 +27,8 @@
                     $posts = load_posts($conn);
                     if ($posts && mysqli_num_rows($posts) > 0) {
                         while ($post = mysqli_fetch_assoc($posts)) {
-                            display_post($post);
+                            display_post($post, $conn);
                         }
-                    } else {
-                        echo '<center><h1 style="margin-top: 100px;">Hello!</h1></center>';
                     }
                 ?>
             </div>
