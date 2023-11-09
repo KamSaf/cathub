@@ -11,8 +11,8 @@
     </head>
 
     <?php
-        include($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php');
-        include($_SERVER['DOCUMENT_ROOT']. '/blog/include/utils.php');
+        require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php');
+        require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/utils.php');
 
         if($conn){
             if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
@@ -27,13 +27,11 @@
                     create_user($conn, $username, $email, $password);
                 }
             }
-        } else{
-            show_database_error_modal();
         }
     ?>
 
     <header>
-        <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/include/header.php'); ?>
+        <?php require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/header.php'); ?>
     </header>
 
     <body>
@@ -94,7 +92,7 @@
     <footer>
         <?php
             mysqli_close($conn);
-            include($_SERVER['DOCUMENT_ROOT']. '/blog/include/footer.html'); 
+            require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/html/footer.html'); 
         ?>
     </footer>
 </html>

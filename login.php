@@ -11,22 +11,20 @@
     </head>
 
     <?php
-        include($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php');
+        require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php');
 
         if($conn){
             if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
                 $email = filter_input(INPUT_POST, 'email_input', FILTER_SANITIZE_SPECIAL_CHARS);
                 $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
 
-                $wrong_data = user_login($conn, $email, $password); // user_login function returns 'true' if logging in didn't succeed
+                $user_logged = user_login($conn, $email, $password);
             }
-        } else{
-            show_database_error_modal();
         }
     ?>
 
     <header>
-        <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/include/header.php'); ?>
+        <?php require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/header.php'); ?>
     </header>
 
     <body>
@@ -36,11 +34,11 @@
                     <label for="email_input" class="form-label">Email address</label>
                     <?php
                         $email_input = "<input type='email' class='form-control ";
-                        if ($wrong_data)
+                        if ($user_logged == -1)
                             $email_input .="is-invalid' ";
                         $email_input .="id='email_input' name='email_input' required value='{$email}'>";
                         echo $email_input;
-                        if ($wrong_data)
+                        if ($user_logged == -1)
                             echo "<small class='text-danger'>Incorrect password or email</small>";
                         
                     ?>
@@ -49,11 +47,11 @@
                     <label for="password_input" class="form-label">Password</label>
                     <?php
                         $password_input = "<input type='password' class='form-control"; 
-                        if ($wrong_data)
+                        if ($user_logged == -1)
                             $password_input .= " is-invalid";
                         $password_input .= "' id='password_input' name='password_input'>";
                         echo $password_input;
-                        if ($wrong_data)
+                        if ($user_logged == -1)
                             echo "<small class='text-danger'>Incorrect password or email</small>";
                     ?>
                 </div>
@@ -70,7 +68,7 @@
     <footer>
         <?php
             mysqli_close($conn);
-            include($_SERVER['DOCUMENT_ROOT']. '/blog/include/footer.html'); 
+            require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/html/footer.html'); 
         ?>
     </footer>
 </html>

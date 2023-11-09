@@ -10,21 +10,36 @@
         <link rel="icon" href="images/facivon.ico" type="image/x-icon">
     </head>
 
-    <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php'); ?>
+    <?php require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/database.php'); ?>
 
     <header>
-        <?php include($_SERVER['DOCUMENT_ROOT']. '/blog/include/header.php'); ?>
+        <?php require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/header.php'); ?>
     </header>
 
     <body>
-        <center><h1 style="margin-top: 100px;">Hello!</h1></center>
+        <div style="margin-top: 60px;" class="d-flex justify-content-between">
+            <div style="width: 30%;" class="p-2 bd-highlight"></div>
+            <div style="width: 40%;" class="p-2 bd-highlight">
+                <?php
+                    $posts = load_posts($conn);
+                    if ($posts && mysqli_num_rows($posts) > 0) {
+                        while ($post = mysqli_fetch_assoc($posts)) {
+                            display_post($post);
+                        }
+                    } else {
+                        echo '<center><h1 style="margin-top: 100px;">Hello!</h1></center>';
+                    }
+                ?>
+            </div>
+            <div style="width: 30%;" class="p-2 bd-highlight"></div>
+        </div>
     </body>
 
     <footer>
         
         <?php
             mysqli_close($conn);
-            include($_SERVER['DOCUMENT_ROOT']. '/blog/include/footer.html');
+            require_once($_SERVER['DOCUMENT_ROOT']. '/blog/include/html/footer.html');
         ?>
     </footer>
 </html>

@@ -1,4 +1,5 @@
 <?php
+    # Validates data provided in register form
     function validate_register_form(mysqli $conn, string $email, string $username, string $password, string $confirm_password){
         $data_valid = true;
         $errors = [];
@@ -32,4 +33,43 @@
 
         return ['success'=>$data_valid, 'errors'=>$errors];
     }
-?>
+
+    # Displays error modal if there is no database connection
+    function show_database_error_modal(){
+        include($_SERVER['DOCUMENT_ROOT']. '/blog/include/html/database_error_modal.html');
+    }
+
+    # Displays provided post
+    function display_post(array $post){
+        echo "
+            <div style='margin-bottom: 60px; background-color: #f8f9fa;' class='card text-center'>
+                <div class='card-header'>
+                    <h5 class='card-title'>{$post['title']}</h5>
+                </div>
+                <div class='card-body'>
+                    <img src='{$post['image_url']}' alt='post_image' width='500' height='500'>
+                    <p style='margin-top: 50px;' class='card-text'>{$post['description']}</p>
+                    <span class='float-start'>
+                        <a href='#' style='margin-right: 5px;' class='btn btn-sm btn-outline-success'>I like it! 😻</a>
+                        <b>{$post['reactions']}</b>
+                    </span>
+                    <a href='#' class='btn btn-primary float-end'>Comment</a>
+                </div>
+                <div class='card-footer text-muted'>
+                    Posted on: {$post['create_date']} by {$post['author_id']}
+                </div>
+            </div>
+        ";
+    }
+
+    # Get user from database based on id
+    function get_user_by_id(mysqli $conn, int $user_id){
+
+    }
+
+    # Checks if user reacted to a post
+    function user_post_relation_exists(mysqli $conn, int $user_id, int $post_id){
+
+    }
+
+    ?>
