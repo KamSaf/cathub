@@ -10,11 +10,23 @@
         <link rel="icon" href="images/facivon.ico" type="image/x-icon">
     </head>
 
-    <?php 
+    <?php
         session_start();
-        
         require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/database.php');
         require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/utils.php');
+
+        if($conn){
+            if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
+                $post_title = filter_input(INPUT_POST, 'post_title', FILTER_SANITIZE_SPECIAL_CHARS);
+                $post_description = filter_input(INPUT_POST, 'post_description', FILTER_SANITIZE_SPECIAL_CHARS);
+
+                if ($_FILES["post_image"] && $_FILES["post_image"] && !exif_imagetype($_FILES["post_image"]["tmp_name"]))
+                    show_file_format_error_modal();
+                else if (validate_post_data($post_title, $post_description))
+                    create_post($conn, $post_title, $post_description);
+            }
+        }
+
     ?>
 
     <header>
@@ -25,24 +37,17 @@
         <div style="margin-top: 60px;" class="d-flex justify-content-between">
             <div style="width: 30%;" class="p-2 bd-highlight"></div>
             <div style="width: 40%;" class="p-2 bd-highlight">
-                <?php
-                    $posts = load_posts($conn);
-                    if ($posts && mysqli_num_rows($posts) > 0) {
-                        while ($post = mysqli_fetch_assoc($posts)) {
-                            display_post($post, $conn);
-                        }
-                    }
-                ?>
+                <?php include($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/new_post_form.html'); ?>
             </div>
             <div style="width: 30%;" class="p-2 bd-highlight"></div>
         </div>
+        
     </body>
 
     <footer>
-        
         <?php
             mysqli_close($conn);
-            require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/footer.html');
+            require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/footer.html'); 
         ?>
     </footer>
 </html>

@@ -1,5 +1,6 @@
 <?php
-
+    session_start();
+    
     # Gets posts (either all posts or created by chosen user) from database
     function load_posts(mysqli $conn, string $user_id=null){
         if ($user_id)
@@ -22,7 +23,7 @@
                     <p style='margin-top: 50px;' class='card-text'>{$post['description']}</p>
                     <span class='float-start'>
         ";
-        if(user_post_reaction_exists($conn, $post['author_id'], $post['id'])){
+        if($_SESSION['logged_user'] && user_post_reaction_exists($conn, $_SESSION['logged_user']['id'], $post['id'])){
             echo "<a href='#' style='margin-right: 5px;' class='btn btn-sm btn-success'>I like it! 😻</a>";
         } else{
             echo "<a href='#' style='margin-right: 5px;' class='btn btn-sm btn-outline-success'>I like it! 😻</a>";
@@ -58,4 +59,59 @@
         return false;
     }
 
+    # Validates data entered by user when creating new post
+    function validate_post_data(string $post_title, string $post_description){
+        if(strlen($post_title) > 100)
+            return false;
+        else if(strlen($post_description) > 500)
+            return false;
+        return true;
+    }
+
+    # Saves uploaded image to /media/images, returns url to saved image
+    function save_image(){
+        if (isset($_POST["submit"])) {
+            $target_dir = "/cathub/media/images/";
+            $image_file_type = strtolower(pathinfo($_FILES["post_image"]["name"], PATHINFO_EXTENSION));
+            $new_file_name = uniqid() . "." . $image_file_type;
+            $target_file = $_SERVER['DOCUMENT_ROOT']. $target_dir . $new_file_name;
+
+            if (isset($_FILES["post_image"]) && $_FILES['post_image']['error'] === UPLOAD_ERR_OK) {
+                if (exif_imagetype($_FILES["post_image"]["tmp_name"])){
+                    move_uploaded_file($_FILES["post_image"]["tmp_name"], $target_file);
+                    return $target_dir. $new_file_name;               
+                }
+            }
+        }
+        return null;
+    }
+
+    # Creates new post
+    function create_post(mysqli $conn, string $post_title, string $post_description){
+        $user_id = (int)$_SESSION['logged_user']['id'];
+        $image_url = save_image();
+        if ($user_id){
+            if ($image_url){
+                $insert_post = "INSERT INTO posts (author_id, title, description, image_url) VALUES ('{$user_id}', '{$post_title}', '{$post_description}', '{$image_url}')";
+            }
+            else{
+                $insert_post = "INSERT INTO posts (author_id, title, description) VALUES ('{$user_id}', '{$post_title}', '{$post_description}')";    
+            }
+            mysqli_query($conn, $insert_post);
+            header("Location: home.php");
+            exit;
+        } else{
+            show_not_authorised_error_modal();
+        }
+    }
+
+    # Shows modal when user tries to upload file in wrong format
+    function show_file_format_error_modal(){
+        include($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/file_format_error_modal.html');
+    }
+
+    # Shows modal when not user has no permission to perform an action
+    function show_not_authorised_error_modal(){
+        include($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/no_permission_modal.html');
+    }
     ?>

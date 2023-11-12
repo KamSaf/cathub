@@ -1,0 +1,15 @@
+<form action='<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>' method="POST" enctype="multipart/form-data">
+    <div style='margin-bottom: 60px; background-color: #f8f9fa;' class='card text-center'>
+        <div class='card-header'>
+            <h5 class='card-title'>New post</h5>
+        </div>
+        <div class='card-body'>
+            <input style='margin-bottom: 40px;' type='text' name='post_title' placeholder='Post title' maxlength='100' required></br>
+            <textarea style='margin-bottom: 15px;' type='text' name='post_description' placeholder='Post description' cols='30' rows='10' maxlength='500' required></textarea></br>
+        </div>
+        <div class='card-footer text-muted'>
+            <input type='file' name='post_image' class='float-start'>
+            <button class='btn btn-primary float-end' name='submit' type="submit">Share</button>
+        </div>
+    </div>
+</form>

@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     # Checks if user with provided email and password exists, if not returns -1
     function user_login(mysqli $conn, string $email, string $password){
         $active_users_query = "SELECT * FROM users WHERE email = '{$email}' AND is_deleted = false";
@@ -35,7 +37,6 @@
 
     # Creates user in the database
     function create_user(mysqli $conn, string $username, string $email, string $password){
-        echo "success!";
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
         $insert_user = "INSERT INTO users (username, password, email) VALUES ('{$username}', '{$password_hash}', '{$email}')";
         mysqli_query($conn, $insert_user);

@@ -1,0 +1,21 @@
+<div class="modal fade" id="no_permission_modal" tabindex="-1" aria-labelledby="no_permission_error_modal_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="no_permission_modal_label">Authorisation error</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                You have no permission to perform this action.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var modal = new bootstrap.Modal(document.getElementById("no_permission_modal"));
+    modal.show();
+</script>
