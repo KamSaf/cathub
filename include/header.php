@@ -4,12 +4,14 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href='about.php'>About</a></li>
-                <li class="nav-item"><a class="nav-link" href='new_post.php'>My posts</a></li>
-
                 <?php
                     session_start();
-                    if ($_SESSION['logged'])
-                        echo "<li style='margin-left: 10px;' class='nav-item'><a class='nav-link active' href='new_post.php'><b>New post +</b></a></li>"
+                    if ($_SESSION['logged']){
+                        echo "
+                            <li class='nav-item'><a class='nav-link' href='user_posts.php?user={$_SESSION['logged_user']['id']}'>My posts</a></li>
+                            <li style='margin-left: 10px;' class='nav-item'><a class='nav-link active' href='new_post.php'><b>New post +</b></a></li>
+                        ";
+                    }
                 ?>
             </ul>
             <form method="GET" action="home.php">

@@ -35,7 +35,7 @@
                     <a href='#' class='btn btn-primary float-end'>Comments</a>
                 </div>
                 <div class='card-footer text-muted'>
-                    Posted on: {$post['create_date']} by <a href='#'>{$author['username']}</a>
+                    Posted on: {$post['create_date']} by <a href='user_posts.php?user={$author['id']}'>{$author['username']}</a>
                 </div>
             </div>
         ";
