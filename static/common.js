@@ -2,12 +2,12 @@ $(document).ready(function() {
     $(".delete-post-button").click(function() {
       var postId = $(this).data("postId");
 
-      $("#delete_post_button").data("postId", postId);
+      $("#delete_item_button").data("postId", postId);
 
       $('#confirm_delete_modal').modal('show');
     });
 
-    $("#delete_post_button").click(function() {
+    $("#delete_item_button").click(function() {
       var postId = $(this).data("postId");
 
       $.ajax({
@@ -22,6 +22,34 @@ $(document).ready(function() {
         }
       });
     });
+});
+
+
+$(document).ready(function() {
+  $(".delete-comment-button").click(function() {
+    var commentId = $(this).data("commentId");
+
+    $("#delete_item_button").data("commentId", commentId);
+
+    $('#confirm_delete_modal').modal('show');
+  });
+
+  $("#delete_item_button").click(function() {
+    var commentId = $(this).data("commentId");
+
+    $.ajax({
+      type: "POST",
+      url: "/cathub/routes/actions/delete_comment.php",
+      data: {
+        commentId: commentId
+      },
+      success: function(response) {
+        console.log(response);
+        $("#comment_" + commentId).remove();
+        $('#confirm_delete_modal').modal('hide');
+      }
+    });
+  });
 });
 
 

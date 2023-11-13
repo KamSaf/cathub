@@ -28,12 +28,12 @@
         $author = get_user_by_id($conn, $comment['author_id']);
 
         $comments_output = "
-            <span style='border'>
+            <span id='comment_{$comment['id']}' style='border'>
                 <b class='float-start'><a href='user_posts.php?user={$author['id']}'>{$author['username']}</a> on {$comment['comment_date']}</b>
         ";
 
         if ($_SESSION['logged_user']['id'] === $author['id'] || $_SESSION['logged_user']['is_admin'])
-            $comments_output .= "<button style='margin-left: 10px; padding: 0.25rem 0.25rem; font-size: 0.520rem;' class='btn btn-danger float-start'>Delete</button>";
+            $comments_output .= "<button class='btn btn-danger float-start delete-comment-button' style='margin-left: 10px; padding: 0.25rem 0.25rem; font-size: 0.520rem;' data-comment-id='{$comment['id']}'>Delete</button>";
 
         $comments_output .= "
                 </br>
@@ -49,6 +49,7 @@
         $conn = open_db_connection();
         $author = get_user_by_id($conn, $post['author_id']);
         $comments = load_comments($post['id']);
+        $self_url = htmlspecialchars($_SERVER["PHP_SELF"]);
 
         $output = '';
         $output .= "
@@ -102,8 +103,11 @@
                     </div>
                 <div style='margin-bottom: 20px;' class='collapse' id='comment_box_{$post['id']}'>
                     <div class='card card-body'>
-                        <textarea type='text'></textarea>
-                        <button style='margin-top: 15px; margin-bottom: 15px;' class='btn btn-secondary btn-sm'>Publish</button>
+                    <form action='{$self_url}' method='POST' enctype='multipart/form-data'>
+                        <input type='hidden' name='post_id' value='{$post['id']}'>
+                        <textarea name='comment_content' type='text' maxlength='150' cols='50' rows='5' required></textarea></br>
+                        <button name='publish' style='margin-top: 15px; margin-bottom: 15px;' class='btn btn-secondary' type='submit'>Publish</button>
+                    </form>
                     </div>
                 </div>
             ";
@@ -128,6 +132,15 @@
     function get_user_by_id(mysqli $conn, string $user_id){
         $user_query = "SELECT * FROM  users WHERE id = '{$user_id}' AND is_deleted = false";
         $query_result = mysqli_query($conn, $user_query);
+        if (mysqli_num_rows($query_result) > 0)
+            return mysqli_fetch_assoc($query_result);
+        return null;
+    }
+
+    # Get comment from database based on id
+    function get_comment_by_id(mysqli $conn, string $comment_id){
+        $comment_query = "SELECT * FROM  comments WHERE id = '{$comment_id}'";
+        $query_result = mysqli_query($conn, $comment_query);
         if (mysqli_num_rows($query_result) > 0)
             return mysqli_fetch_assoc($query_result);
         return null;
@@ -212,6 +225,21 @@
                 $update_post = "UPDATE posts SET title = '{$post_title}', description = '{$post_description}', image_url = '' WHERE id = {$old_post_id}";    
             }
             mysqli_query($conn, $update_post);
+            mysqli_close($conn);
+            header("Location: home.php");
+            exit;
+        } else{
+            show_not_authorised_error_modal();
+        }
+    }
+
+    # Creates new comment
+    function create_comment(string $content, string $post_id){
+        $conn = open_db_connection();
+        $user_id = $_SESSION['logged_user']['id'];
+        if ($user_id){
+            $insert_comment = "INSERT INTO comments (author_id, post_id, content) VALUES ('{$user_id}', '{$post_id}', '{$content}')";    
+            mysqli_query($conn, $insert_comment);
             mysqli_close($conn);
             header("Location: home.php");
             exit;

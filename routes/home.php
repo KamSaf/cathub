@@ -18,7 +18,18 @@
     ?>
 
     <header>
-        <?php require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/header.php'); ?>
+        <?php 
+            require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/header.php');
+
+            if (isset($_POST['publish'])){
+                $comment_content = filter_input(INPUT_POST, 'comment_content', FILTER_SANITIZE_SPECIAL_CHARS);
+                $post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_SPECIAL_CHARS);
+                if (strlen($comment_content) <= 150){
+                    create_comment($comment_content, $post_id);
+                }
+            }
+
+        ?>
     </header>
 
     <body>
@@ -46,5 +57,4 @@
         ?>
     </footer>
 
-    
 </html>
