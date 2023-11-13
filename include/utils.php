@@ -42,7 +42,10 @@
                 <div class='card-footer text-muted'>
             ";
         if($_SESSION['logged_user'] && ($_SESSION['logged_user']['id'] === $author['id'] || $_SESSION['logged_user']['is_admin']))
-            $output .= "<a class='btn btn-danger btn-sm float-start delete-post-button' data-post-id='{$post['id']}'>Delete post</a>";
+            $output .= "
+                <a class='btn btn-danger btn-sm float-start delete-post-button' data-post-id='{$post['id']}'>Delete post</a>
+                <a style='margin-left: 15px;' href='new_post.php?post_id={$post['id']}' class='btn btn-secondary btn-sm float-start' data-post-id='{$post['id']}'>Edit post</a>
+                ";
         $output .= "
                     Posted on: {$post['create_date']} by <a href='user_posts.php?user={$author['id']}'>{$author['username']}</a>
                 </div>
@@ -119,6 +122,27 @@
                 $insert_post = "INSERT INTO posts (author_id, title, description) VALUES ('{$user_id}', '{$post_title}', '{$post_description}')";    
             }
             mysqli_query($conn, $insert_post);
+            mysqli_close($conn);
+            header("Location: home.php");
+            exit;
+        } else{
+            show_not_authorised_error_modal();
+        }
+    }
+
+    # Edits post
+    function edit_post(string $post_title, string $post_description, string $old_post_id){
+        $conn = open_db_connection();
+        $user_id = (int)$_SESSION['logged_user']['id'];
+        $image_url = save_image();
+        if ($user_id){
+            if ($image_url){
+                $update_post = "UPDATE posts SET title = '{$post_title}', description = '{$post_description}', image_url = '{$image_url}' WHERE id = {$old_post_id}"; 
+            }
+            else{
+                $update_post = "UPDATE posts SET title = '{$post_title}', description = '{$post_description}', image_url = '' WHERE id = {$old_post_id}";    
+            }
+            mysqli_query($conn, $update_post);
             mysqli_close($conn);
             header("Location: home.php");
             exit;

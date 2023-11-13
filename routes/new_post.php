@@ -11,20 +11,29 @@
     </head>
 
     <?php
+        
         session_start();
         require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/utils.php');
+        require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/database.php');
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
+        $db_conn = open_db_connection();
+        $old_post = get_post_by_id($db_conn, $_GET['post_id']);
+        mysqli_close($db_conn);
+
+        if (isset($_POST['add']) || isset($_POST['edit'])){
             $post_title = filter_input(INPUT_POST, 'post_title', FILTER_SANITIZE_SPECIAL_CHARS);
             $post_description = filter_input(INPUT_POST, 'post_description', FILTER_SANITIZE_SPECIAL_CHARS);
 
             if ($_FILES["post_image"] && $_FILES["post_image"]["tmp_name"] && !exif_imagetype($_FILES["post_image"]["tmp_name"]))
                 show_file_format_error_modal();
-            else if (validate_post_data($post_title, $post_description)){
-                create_post($post_title, $post_description);
+
+            if (validate_post_data($post_title, $post_description)){
+                if (isset($_POST['add']))
+                    create_post($post_title, $post_description);
+                else if(isset($_POST['edit']))
+                    edit_post($post_title, $post_description, $old_post['id']);               
             }
         }
-
     ?>
 
     <header>
@@ -35,7 +44,14 @@
         <div style="margin-top: 60px;" class="d-flex justify-content-between">
             <div style="width: 30%;" class="p-2 bd-highlight"></div>
             <div style="width: 40%;" class="p-2 bd-highlight">
-                <?php include($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/new_post_form.html'); ?>
+                <?php
+                    if($_GET['post_id']){
+                        include($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/edit_post_form.html'); 
+                    }
+                    else{
+                        include($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/new_post_form.html');
+                    }
+                ?>
             </div>
             <div style="width: 30%;" class="p-2 bd-highlight"></div>
         </div>

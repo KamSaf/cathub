@@ -1,0 +1,24 @@
+<form action='<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>' method="POST" enctype="multipart/form-data">
+    <div style='margin-bottom: 60px; background-color: #f8f9fa;' class='card text-center'>
+        <div class='card-header'>
+            <h5 class='card-title'>Edit post</h5>
+        </div>
+        <div class='card-body'>
+            <input style='margin-bottom: 40px;' type='text' name='post_title' placeholder='Post title' maxlength='100' value='<?php echo $old_post["title"] ?>' required></br>
+            
+            <?php
+                if($old_post['image_url']){
+                    echo "<img src='{$old_post["image_url"]}' alt='post_image' width='500' height='310'>";
+                }  
+            ?>
+            <textarea style='margin-bottom: 15px; margin-top: 50px;' type='text' name='post_description' placeholder='Post description' cols='30' rows='10' maxlength='500' required><?php echo $old_post["description"] ?></textarea></br>
+        </div>
+        <div class='card-footer text-muted'>
+            <input type='file' name='post_image' class='float-start'>
+            <a class='btn btn-secondary float-end' href="home.php">Cancel</a>
+            <button style="margin-right: 15px;" class='btn btn-primary float-end' name='edit' type="submit">Edit</button>
+        </div>
+    </div>
+</form>
+
+
