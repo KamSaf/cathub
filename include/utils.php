@@ -58,10 +58,19 @@
                     <h5 class='card-title'>{$post['title']}</h5>
                 </div>
                 <div class='card-body'>
-                    <img src='{$post['image_url']}' alt='post_image' width='500' height='310'>
-                    <p style='margin-top: 50px;' class='card-text'>{$post['description']}</p>
-                    <span class='float-start'>
         ";
+        if ($post['image_url']){
+            $output .= "
+                <img src='{$post['image_url']}' alt='post_image' width='500' height='310'>
+                <p style='margin-top: 50px;' class='card-text'>{$post['description']}</p>
+                <span class='float-start'>
+            ";
+        } else {
+            $output .= "
+                <p style='margin-top: 50px;' class='card-text'>{$post['description']}</p>
+                <span class='float-start'>
+            ";
+        }
 
         if($_SESSION['logged_user'] && user_post_reaction_exists($conn, $_SESSION['logged_user']['id'], $post['id'])){
             $output .= "<a style='margin-right: 5px;' class='btn btn-sm btn-success react-button' data-post-id='{$post['id']}'>I like it! 😻</a>";
@@ -175,13 +184,13 @@
 
     # Saves uploaded image to /media/images, returns url to saved image
     function save_image(){
-        if (isset($_POST["submit"])) {
+        if (isset($_POST["add"]) || isset($_POST["edit"])) {
             $target_dir = "/cathub/media/images/";
             $image_file_type = strtolower(pathinfo($_FILES["post_image"]["name"], PATHINFO_EXTENSION));
             $new_file_name = uniqid() . "." . $image_file_type;
             $target_file = $_SERVER['DOCUMENT_ROOT']. $target_dir . $new_file_name;
-
-            if (isset($_FILES["post_image"]) && $_FILES['post_image']['error'] === UPLOAD_ERR_OK) {
+            
+            if (isset($_FILES["post_image"])) {
                 if (exif_imagetype($_FILES["post_image"]["tmp_name"])){
                     move_uploaded_file($_FILES["post_image"]["tmp_name"], $target_file);
                     return $target_dir. $new_file_name;               

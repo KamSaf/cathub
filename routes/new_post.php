@@ -26,10 +26,10 @@
             $post_title = filter_input(INPUT_POST, 'post_title', FILTER_SANITIZE_SPECIAL_CHARS);
             $post_description = filter_input(INPUT_POST, 'post_description', FILTER_SANITIZE_SPECIAL_CHARS);
 
-            if ($_FILES["post_image"] && $_FILES["post_image"]["tmp_name"] && !exif_imagetype($_FILES["post_image"]["tmp_name"]))
+            if ($_FILES["post_image"] && $_FILES["post_image"]["tmp_name"] && !exif_imagetype($_FILES["post_image"]["tmp_name"])){
                 show_file_format_error_modal();
-
-            if (validate_post_data($post_title, $post_description)){
+            }
+            else if (validate_post_data($post_title, $post_description)){
                 if (isset($_POST['add']))
                     create_post($post_title, $post_description);
                 else if(isset($_POST['edit']))
