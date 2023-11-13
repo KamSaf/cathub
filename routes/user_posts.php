@@ -12,8 +12,6 @@
 
     <?php 
         session_start();
-        
-        require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/database.php');
         require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/utils.php');
     ?>
 
@@ -27,10 +25,10 @@
             <div style="width: 40%;" class="p-2 bd-highlight">
                 <?php
                     if (isset($_GET['user'])) {
-                        $posts = load_posts($conn, $_GET['user']);
+                        $posts = load_posts($_GET['user']);
                         if ($posts && mysqli_num_rows($posts) > 0) {
                             while ($post = mysqli_fetch_assoc($posts)) {
-                                display_post($post, $conn);
+                                display_post($post);
                             }
                         }
                     }
@@ -43,8 +41,8 @@
     <footer>
         
         <?php
-            mysqli_close($conn);
             require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/footer.html');
-        ?>
+            include_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/delete_modal.html');
+         ?>
     </footer>
 </html>

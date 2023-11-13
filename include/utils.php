@@ -1,20 +1,26 @@
 <?php
+    require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/database.php');
     session_start();
     
     # Gets posts (either all posts or created by chosen user) from database
-    function load_posts(mysqli $conn, string $user_id=null){
+    function load_posts(string $user_id=null){
+        $conn = open_db_connection();
         if ($user_id)
             $posts_query = "SELECT * FROM posts WHERE is_deleted = false AND author_id = '{$user_id}' ORDER BY create_date DESC";
         else
             $posts_query = "SELECT * FROM posts WHERE is_deleted = false ORDER BY create_date DESC";
-        return mysqli_query($conn, $posts_query);
+        $posts = mysqli_query($conn, $posts_query);
+        mysqli_close($conn);
+        return $posts;
     }
 
     # Displays provided post
-    function display_post(array $post, mysqli $conn){
+    function display_post(array $post){
+        $conn = open_db_connection();
         $author = get_user_by_id($conn, $post['author_id']);
-        echo "
-            <div style='margin-bottom: 60px; background-color: #f8f9fa;' class='card text-center'>
+        $output = '';
+        $output .= "
+            <div id='post_{$post['id']}' style='margin-bottom: 60px; background-color: #f8f9fa;' class='card text-center'>
                 <div class='card-header'>
                     <h5 class='card-title'>{$post['title']}</h5>
                 </div>
@@ -24,27 +30,41 @@
                     <span class='float-start'>
         ";
         if($_SESSION['logged_user'] && user_post_reaction_exists($conn, $_SESSION['logged_user']['id'], $post['id'])){
-            echo "<a href='#' style='margin-right: 5px;' class='btn btn-sm btn-success'>I like it! 😻</a>";
+            $output .= "<a href='#' style='margin-right: 5px;' class='btn btn-sm btn-success'>I like it! 😻</a>";
         } else{
-            echo "<a href='#' style='margin-right: 5px;' class='btn btn-sm btn-outline-success'>I like it! 😻</a>";
+            $output .= "<a href='#' style='margin-right: 5px;' class='btn btn-sm btn-outline-success'>I like it! 😻</a>";
         }
-        echo "
-                        
+        $output .= "
                         <b>{$post['reactions']}</b>
                     </span>
                     <a href='#' class='btn btn-primary float-end'>Comments</a>
                 </div>
                 <div class='card-footer text-muted'>
+            ";
+        if($_SESSION['logged_user'] && ($_SESSION['logged_user']['id'] === $author['id'] || $_SESSION['logged_user']['is_admin']))
+            $output .= "<a class='btn btn-danger btn-sm float-start delete-post-button' data-post-id='{$post['id']}'>Delete post</a>";
+        $output .= "
                     Posted on: {$post['create_date']} by <a href='user_posts.php?user={$author['id']}'>{$author['username']}</a>
                 </div>
             </div>
         ";
+        mysqli_close($conn);
+        echo $output;
     }
 
     # Get user from database based on id
     function get_user_by_id(mysqli $conn, string $user_id){
         $user_query = "SELECT * FROM  users WHERE id = '{$user_id}' AND is_deleted = false";
         $query_result = mysqli_query($conn, $user_query);
+        if (mysqli_num_rows($query_result) > 0)
+            return mysqli_fetch_assoc($query_result);
+        return null;
+    }
+
+    # Get post from database based on id
+    function get_post_by_id(mysqli $conn, string $post_id){
+        $post_query = "SELECT * FROM  posts WHERE id = '{$post_id}' AND is_deleted = false";
+        $query_result = mysqli_query($conn, $post_query);
         if (mysqli_num_rows($query_result) > 0)
             return mysqli_fetch_assoc($query_result);
         return null;
@@ -87,7 +107,8 @@
     }
 
     # Creates new post
-    function create_post(mysqli $conn, string $post_title, string $post_description){
+    function create_post(string $post_title, string $post_description){
+        $conn = open_db_connection();
         $user_id = (int)$_SESSION['logged_user']['id'];
         $image_url = save_image();
         if ($user_id){
@@ -98,6 +119,7 @@
                 $insert_post = "INSERT INTO posts (author_id, title, description) VALUES ('{$user_id}', '{$post_title}', '{$post_description}')";    
             }
             mysqli_query($conn, $insert_post);
+            mysqli_close($conn);
             header("Location: home.php");
             exit;
         } else{
@@ -114,4 +136,5 @@
     function show_not_authorised_error_modal(){
         include($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/no_permission_modal.html');
     }
-    ?>
+
+?>

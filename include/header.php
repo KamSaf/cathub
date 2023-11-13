@@ -16,13 +16,14 @@
             </ul>
             <form method="GET" action="home.php">
                 <?php
+                    $navbar_auth = '';
                     if ($_SESSION['logged']){
-                        echo "<a class='navbar-brand'>Hello, {$_SESSION['logged_user']['username']}!</a>";
-                        echo '<button name="logout" style="margin-left: 20px;" class="btn btn-outline-light" href="login.php" >Log out <i class="bi bi-lock"></i></i></button>';
+                        $navbar_auth .= "<a class='navbar-brand'>Hello, {$_SESSION['logged_user']['username']}!</a>";
+                        $navbar_auth .= '<button name="logout" style="margin-left: 20px;" class="btn btn-outline-light" href="login.php" >Log out <i class="bi bi-lock"></i></i></button>';
                     }
                     else
-                        echo '<a style="margin-left: 20px;" class="btn btn-outline-light" href="login.php" >Log in <i class="bi bi-unlock"></i></i></a>';
-
+                        $navbar_auth .= '<a style="margin-left: 20px;" class="btn btn-outline-light" href="login.php" >Log in <i class="bi bi-unlock"></i></i></a>';
+                    echo $navbar_auth;
 
                     if (isset($_GET['logout'])) {
                         session_destroy();

@@ -11,21 +11,18 @@
     </head>
 
     <?php
-        require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/database.php');
         require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/auth.php');
 
-        if($conn){
-            if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
-                $email = filter_input(INPUT_POST, 'email_input', FILTER_SANITIZE_SPECIAL_CHARS);
-                $username = filter_input(INPUT_POST, 'username_input', FILTER_SANITIZE_SPECIAL_CHARS);
-                $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
-                $confirm_password = filter_input(INPUT_POST, 'confirm_password_input', FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
+            $email = filter_input(INPUT_POST, 'email_input', FILTER_SANITIZE_SPECIAL_CHARS);
+            $username = filter_input(INPUT_POST, 'username_input', FILTER_SANITIZE_SPECIAL_CHARS);
+            $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
+            $confirm_password = filter_input(INPUT_POST, 'confirm_password_input', FILTER_SANITIZE_SPECIAL_CHARS);
 
-                $data_validation_result = validate_register_form($conn, $email, $username, $password, $confirm_password);
+            $data_validation_result = validate_register_form($email, $username, $password, $confirm_password);
 
-                if ($data_validation_result['success']){
-                    create_user($conn, $username, $email, $password);
-                }
+            if ($data_validation_result['success']){
+                create_user($username, $email, $password);
             }
         }
     ?>
@@ -90,9 +87,6 @@
     </body>
 
     <footer>
-        <?php
-            mysqli_close($conn);
-            require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/footer.html'); 
-        ?>
+        <?php require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/footer.html'); ?>
     </footer>
 </html>

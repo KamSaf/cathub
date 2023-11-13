@@ -1,12 +1,15 @@
 <?php
+    require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/database.php');
     session_start();
 
     # Checks if user with provided email and password exists, if not returns -1
-    function user_login(mysqli $conn, string $email, string $password){
+    function user_login(string $email, string $password){
+        $conn = open_db_connection();
         $active_users_query = "SELECT * FROM users WHERE email = '{$email}' AND is_deleted = false";
         $users = mysqli_query($conn, $active_users_query);
         if (mysqli_num_rows($users) > 0)
             $user = mysqli_fetch_assoc($users);
+            mysqli_close($conn);
             if (password_verify($password, $user['password'])){
                 session_start();
                 $_SESSION['logged'] = true;
@@ -36,15 +39,18 @@
     }
 
     # Creates user in the database
-    function create_user(mysqli $conn, string $username, string $email, string $password){
+    function create_user(string $username, string $email, string $password){
+        $conn = open_db_connection();
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
         $insert_user = "INSERT INTO users (username, password, email) VALUES ('{$username}', '{$password_hash}', '{$email}')";
         mysqli_query($conn, $insert_user);
-        user_login($conn, $email, $password);
+        mysqli_close($conn);
+        user_login($email, $password);
     }
 
     # Validates data provided in register form
-    function validate_register_form(mysqli $conn, string $email, string $username, string $password, string $confirm_password){
+    function validate_register_form(string $email, string $username, string $password, string $confirm_password){
+        $conn = open_db_connection();
         $data_valid = true;
         $errors = [];
 
@@ -74,6 +80,7 @@
             $errors['password_error'] = "Passwords needs to be identical.";
             $errors['confirm_password_error'] = "Passwords need to be identical.";
         }
+        mysqli_close($conn);
         return ['success'=>$data_valid, 'errors'=>$errors];
     }
 ?>

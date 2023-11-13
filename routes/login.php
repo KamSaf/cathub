@@ -11,16 +11,13 @@
     </head>
 
     <?php
-        require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/database.php');
         require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/auth.php');
 
-        if($conn){
-            if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
-                $email = filter_input(INPUT_POST, 'email_input', FILTER_SANITIZE_SPECIAL_CHARS);
-                $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
+            $email = filter_input(INPUT_POST, 'email_input', FILTER_SANITIZE_SPECIAL_CHARS);
+            $password = filter_input(INPUT_POST, 'password_input', FILTER_SANITIZE_SPECIAL_CHARS);
 
-                $user_logged = user_login($conn, $email, $password);
-            }
+            $user_logged = user_login($email, $password);
         }
     ?>
 
@@ -67,9 +64,6 @@
     </body>
 
     <footer>
-        <?php
-            mysqli_close($conn);
-            require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/footer.html'); 
-        ?>
+        <?php require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/footer.html'); ?>
     </footer>
 </html>
