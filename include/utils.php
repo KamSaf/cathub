@@ -14,10 +14,33 @@
         return $posts;
     }
 
+    # Gets comments for chosen post from database
+    function load_comments(string $post_id){
+        $conn = open_db_connection();
+        $comments_query = "SELECT * FROM comments WHERE post_id = '{$post_id}' ORDER BY comment_date DESC";
+        $comments = mysqli_query($conn, $comments_query);
+        mysqli_close($conn);
+        return $comments;
+    }
+
+    # Returns comment in nice template
+    function comment_template(array $comment, mysqli $conn){
+        $author = get_user_by_id($conn, $comment['author_id']);
+        $comments_output = "
+            <span style='border'>
+                <b class='float-start'><a href='user_posts.php?user={$author['id']}'>{$author['username']}</a> on {$comment['comment_date']}</b></br>
+                <p class='float-start'>{$comment['content']}</p>
+            </span>
+            ";
+        return $comments_output;
+    }
+
     # Displays provided post
     function display_post(array $post){
         $conn = open_db_connection();
         $author = get_user_by_id($conn, $post['author_id']);
+        $comments = load_comments($post['id']);
+
         $output = '';
         $output .= "
             <div id='post_{$post['id']}' style='margin-bottom: 60px; background-color: #f8f9fa;' class='card text-center'>
@@ -37,7 +60,7 @@
         $output .= "
                         <b id='reactions_{$post['id']}'>{$post['reactions']}</b>
                     </span>
-                    <a href='#' class='btn btn-primary float-end'>Comments</a>
+                    <button type='button' data-bs-toggle='collapse' data-bs-target='#comments_{$post['id']}' aria-expanded='false' aria-controls='comments_{$post['id']}' class='btn btn-primary float-end'>Comments</button>
                 </div>
                 <div class='card-footer text-muted'>
             ";
@@ -49,7 +72,19 @@
         $output .= "
                     Posted on: {$post['create_date']} by <a href='user_posts.php?user={$author['id']}'>{$author['username']}</a>
                 </div>
+            <div class='collapse' id='comments_{$post['id']}'>
+                <div class='card card-body'>
+            ";
+
+        if ($comments && mysqli_num_rows($comments) > 0) {
+            while ($comment = mysqli_fetch_assoc($comments)) {
+                $output .= comment_template($comment, $conn);
+            }  
+        }
+        $output .= "
             </div>
+            </div>
+        </div>
         ";
         mysqli_close($conn);
         echo $output;
