@@ -1,0 +1,1 @@
+Basic PHP web app utilizing MySQL created with LAMPP. Created for academic and educational purposes.
