@@ -16,9 +16,11 @@
         require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/utils.php');
         require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/database.php');
 
-        $db_conn = open_db_connection();
-        $old_post = get_post_by_id($db_conn, $_GET['post_id']);
-        mysqli_close($db_conn);
+        if (isset($_GET['post_id'])){
+            $db_conn = open_db_connection();
+            $old_post = get_post_by_id($db_conn, $_GET['post_id']);
+            mysqli_close($db_conn);    
+        }
 
         if (isset($_POST['add']) || isset($_POST['edit'])){
             $post_title = filter_input(INPUT_POST, 'post_title', FILTER_SANITIZE_SPECIAL_CHARS);

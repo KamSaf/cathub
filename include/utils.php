@@ -30,12 +30,12 @@
                     <span class='float-start'>
         ";
         if($_SESSION['logged_user'] && user_post_reaction_exists($conn, $_SESSION['logged_user']['id'], $post['id'])){
-            $output .= "<a href='#' style='margin-right: 5px;' class='btn btn-sm btn-success'>I like it! 😻</a>";
+            $output .= "<a style='margin-right: 5px;' class='btn btn-sm btn-success react-button' data-post-id='{$post['id']}'>I like it! 😻</a>";
         } else{
-            $output .= "<a href='#' style='margin-right: 5px;' class='btn btn-sm btn-outline-success'>I like it! 😻</a>";
+            $output .= "<a style='margin-right: 5px;' class='btn btn-sm btn-outline-success react-button' data-post-id='{$post['id']}'>I like it! 😻</a>";
         }
         $output .= "
-                        <b>{$post['reactions']}</b>
+                        <b id='reactions_{$post['id']}'>{$post['reactions']}</b>
                     </span>
                     <a href='#' class='btn btn-primary float-end'>Comments</a>
                 </div>

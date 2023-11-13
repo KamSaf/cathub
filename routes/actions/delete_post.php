@@ -9,7 +9,7 @@
                 $conn = open_db_connection();
                 $post = get_post_by_id($conn, $post_id);
                 $user = $_SESSION['logged_user'];
-                if ($user['id'] && ($post['author_id'] === $user['id'] || $user['is_admin'])){
+                if ($user && ($post['author_id'] === $user['id'] || $user['is_admin'])){
                     $delete_post = "UPDATE posts SET is_deleted = '1' WHERE id = {$post['id']}";    
                     mysqli_query($conn, $delete_post);
                     mysqli_close($conn);
