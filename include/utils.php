@@ -26,12 +26,21 @@
     # Returns comment in nice template
     function comment_template(array $comment, mysqli $conn){
         $author = get_user_by_id($conn, $comment['author_id']);
+
         $comments_output = "
             <span style='border'>
-                <b class='float-start'><a href='user_posts.php?user={$author['id']}'>{$author['username']}</a> on {$comment['comment_date']}</b></br>
+                <b class='float-start'><a href='user_posts.php?user={$author['id']}'>{$author['username']}</a> on {$comment['comment_date']}</b>
+        ";
+
+        if ($_SESSION['logged_user']['id'] === $author['id'] || $_SESSION['logged_user']['is_admin'])
+            $comments_output .= "<button style='margin-left: 10px; padding: 0.25rem 0.25rem; font-size: 0.520rem;' class='btn btn-danger float-start'>Delete</button>";
+
+        $comments_output .= "
+                </br>
                 <p class='float-start'>{$comment['content']}</p>
             </span>
-            ";
+        ";
+
         return $comments_output;
     }
 
@@ -52,39 +61,64 @@
                     <p style='margin-top: 50px;' class='card-text'>{$post['description']}</p>
                     <span class='float-start'>
         ";
+
         if($_SESSION['logged_user'] && user_post_reaction_exists($conn, $_SESSION['logged_user']['id'], $post['id'])){
             $output .= "<a style='margin-right: 5px;' class='btn btn-sm btn-success react-button' data-post-id='{$post['id']}'>I like it! 😻</a>";
-        } else{
+        } else if($_SESSION['logged']){
             $output .= "<a style='margin-right: 5px;' class='btn btn-sm btn-outline-success react-button' data-post-id='{$post['id']}'>I like it! 😻</a>";
+        } else{
+            $output .= "<a style='margin-right: 5px;' class='btn btn-sm btn-outline-success disabled' data-post-id='{$post['id']}' >I like it! 😻</a>";
         }
+
         $output .= "
-                        <b id='reactions_{$post['id']}'>{$post['reactions']}</b>
-                    </span>
-                    <button type='button' data-bs-toggle='collapse' data-bs-target='#comments_{$post['id']}' aria-expanded='false' aria-controls='comments_{$post['id']}' class='btn btn-primary float-end'>Comments</button>
-                </div>
-                <div class='card-footer text-muted'>
-            ";
-        if($_SESSION['logged_user'] && ($_SESSION['logged_user']['id'] === $author['id'] || $_SESSION['logged_user']['is_admin']))
+                    <b id='reactions_{$post['id']}'>{$post['reactions']}</b>
+                </span>
+                <button type='button' data-bs-toggle='collapse' data-bs-target='#comments_{$post['id']}' aria-expanded='false' aria-controls='comments_{$post['id']}' class='btn btn-primary float-end'>Comments</button>
+            </div>
+            <div class='card-footer text-muted'>
+        ";
+
+        if($_SESSION['logged_user'] && ($_SESSION['logged_user']['id'] === $author['id'] || $_SESSION['logged_user']['is_admin'])){
             $output .= "
                 <a class='btn btn-danger btn-sm float-start delete-post-button' data-post-id='{$post['id']}'>Delete post</a>
                 <a style='margin-left: 15px;' href='new_post.php?post_id={$post['id']}' class='btn btn-secondary btn-sm float-start' data-post-id='{$post['id']}'>Edit post</a>
-                ";
+            ";
+        }
+
         $output .= "
                     Posted on: {$post['create_date']} by <a href='user_posts.php?user={$author['id']}'>{$author['username']}</a>
                 </div>
-            <div class='collapse' id='comments_{$post['id']}'>
-                <div class='card card-body'>
+                <div class='collapse' id='comments_{$post['id']}'>
+                    <div class='card card-body'>
+        ";
+        if($_SESSION['logged']){
+            $output .= "
+
+                    <div class='container text-center'>
+                        <button style='margin-top: 5px; margin-bottom: 20px; width: 30%;' class='btn btn-primary btn-sm' type='button' data-bs-toggle='collapse' data-bs-target='#comment_box_{$post['id']}' aria-expanded='false' aria-controls='comment_box_{$post['id']}'>
+                            Comment
+                            <i class='bi bi-pencil-square'></i>
+                        </button>
+                    </div>
+                <div style='margin-bottom: 20px;' class='collapse' id='comment_box_{$post['id']}'>
+                    <div class='card card-body'>
+                        <textarea type='text'></textarea>
+                        <button style='margin-top: 15px; margin-bottom: 15px;' class='btn btn-secondary btn-sm'>Publish</button>
+                    </div>
+                </div>
             ";
+        }
 
         if ($comments && mysqli_num_rows($comments) > 0) {
             while ($comment = mysqli_fetch_assoc($comments)) {
                 $output .= comment_template($comment, $conn);
             }  
         }
+
         $output .= "
             </div>
             </div>
-        </div>
+            </div>
         ";
         mysqli_close($conn);
         echo $output;
