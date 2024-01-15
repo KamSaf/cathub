@@ -16,7 +16,7 @@
                 } else{
                     show_not_authorised_error_modal();
                 }
-                echo json_encode(array('result'=>'dupa'));
+                echo json_encode(array('result'=>'false'));
             }
         }
 ?>

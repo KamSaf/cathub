@@ -218,6 +218,7 @@
         } else{
             show_not_authorised_error_modal();
         }
+        mysqli_close($conn);
     }
 
     # Edits post
@@ -239,6 +240,7 @@
         } else{
             show_not_authorised_error_modal();
         }
+        mysqli_close($conn);
     }
 
     # Creates new comment
@@ -254,6 +256,7 @@
         } else{
             show_not_authorised_error_modal();
         }
+        mysqli_close($conn);
     }
 
     # Shows modal when user tries to upload file in wrong format

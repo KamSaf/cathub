@@ -40,7 +40,7 @@
                         $email_input = "<input type='email' class='form-control ";
                         if ($data_validation_result['errors']['email_error'])
                             $email_input .="is-invalid' ";
-                        $email_input .="id='email_input' name='email_input' required value='{$email}'>";
+                        $email_input .="id='email_input' name='email_input' required value='{$email}' maxlength='100'>";
                         echo $email_input. "<small class='text-danger'>{$data_validation_result['errors']['email_error']}</small>";
                     ?>
                 </div>
@@ -50,7 +50,7 @@
                         $username_input = "<input type='username' class='form-control"; 
                         if ($data_validation_result['errors']['username_error'])
                             $username_input .= " is-invalid";
-                        $username_input .= "' id='username_input' name='username_input' value='{$username}' required>";
+                        $username_input .= "' id='username_input' name='username_input' value='{$username}' required maxlength='25'>";
                         echo $username_input. "<small class='text-danger'>{$data_validation_result['errors']['username_error']}</small>";
                     ?>
                 </div>
@@ -60,7 +60,7 @@
                         $password_input = "<input type='password' class='form-control"; 
                         if ($data_validation_result['errors']['password_error'])
                             $password_input .= " is-invalid";
-                        $password_input .= "' id='password_input' name='password_input' required>";
+                        $password_input .= "' id='password_input' name='password_input' required minlength='8' maxlength='100'>";
                         echo $password_input. "<small class='text-danger'>{$data_validation_result['errors']['password_error']}</small>";
                     ?>
                 </div>
@@ -71,7 +71,7 @@
                         $confirm_password_input = "<input type='password' class='form-control"; 
                         if ($data_validation_result['errors']['confirm_password_error'])
                             $confirm_password_input .= " is-invalid";
-                        $confirm_password_input .= "' id='confirm_password_input' name='confirm_password_input' required>";
+                        $confirm_password_input .= "' id='confirm_password_input' name='confirm_password_input' required minlength='8' maxlength='100'>";
                         echo $confirm_password_input. "<small class='text-danger'>{$data_validation_result['errors']['confirm_password_error']}</small>";
                     ?>
                 </div>
