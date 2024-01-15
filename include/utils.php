@@ -189,9 +189,8 @@
             $image_file_type = strtolower(pathinfo($_FILES["post_image"]["name"], PATHINFO_EXTENSION));
             $new_file_name = uniqid() . "." . $image_file_type;
             $target_file = $_SERVER['DOCUMENT_ROOT']. $target_dir . $new_file_name;
-            
             if (isset($_FILES["post_image"])) {
-                if (exif_imagetype($_FILES["post_image"]["tmp_name"])){
+                if ($_FILES["post_image"]["tmp_name"] && exif_imagetype($_FILES["post_image"]["tmp_name"])){
                     move_uploaded_file($_FILES["post_image"]["tmp_name"], $target_file);
                     return $target_dir. $new_file_name;               
                 }
