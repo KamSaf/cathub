@@ -55,9 +55,9 @@
         $data_valid = true;
         $errors = [];
 
-        if (strlen($email) > 256){
+        if (strlen($email) > 100){
             $data_valid = false;
-            $errors['email_error'] = "This email address is too long.";
+            $errors['email_error'] = "This email is too long (max. 100 characters).";
         } else if(check_if_email_used($conn, $email)){
             $data_valid = false;
             $errors['email_error'] = "This email address is already used.";
@@ -74,6 +74,9 @@
         if (strlen($password) < 8){
             $data_valid = false;
             $errors['password_error'] = "This password is too short (min 8 characters).";
+        } else if(strlen($password) > 100){
+            $data_valid = false;
+            $errors['password_error'] = "This password is too long (max. 100 characters).";
         }
 
         if ($password != $confirm_password){
