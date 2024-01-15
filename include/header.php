@@ -26,6 +26,10 @@
                     echo $navbar_auth;
 
                     if (isset($_GET['logout'])) {
+                        $file_path = $_SERVER['DOCUMENT_ROOT']. '/cathub/logs/app_logs.txt';
+                        $file = fopen($file_path, 'a');
+                        fputs($file, date("Y-m-d - H:i:s").":   User {$_SESSION['logged_user']['username']} logged out\n");
+                        fclose($file);
                         session_destroy();
                         header("Location: login.php");
                         exit;

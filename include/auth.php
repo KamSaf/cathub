@@ -1,5 +1,19 @@
 <?php
 
+    function save_log_user_login($username){
+        $file_path = $_SERVER['DOCUMENT_ROOT']. '/cathub/logs/app_logs.txt';
+        $file = fopen($file_path, 'a');
+        fputs($file, date("Y-m-d - H:i:s").":   User {$username} logged in\n");
+        fclose($file);
+    }
+
+    function save_log_user_register($username){
+        $file_path = $_SERVER['DOCUMENT_ROOT']. '/cathub/logs/app_logs.txt';
+        $file = fopen($file_path, 'a');
+        fputs($file, date("Y-m-d - H:i:s").":   User {$username} registered\n");
+        fclose($file);
+    }
+
     function start_pdo_conn(){
         return new PDO ('mysql:host=localhost;dbname=cathub','root','');
     }
@@ -40,6 +54,7 @@
                 session_start();
                 $_SESSION['logged'] = true;
                 $_SESSION['logged_user'] = $user;
+                save_log_user_login($user['username']);
                 header("Location: home.php");
                 exit;
             }
@@ -114,6 +129,7 @@
         $prep->bindParam(':email', $email, PDO::PARAM_STR);
         $prep->execute();
         $conn = null;
+        save_log_user_register($username);
         user_login($email, $password);
     }
 
