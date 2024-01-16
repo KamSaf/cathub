@@ -3,3 +3,4 @@ todo.txt
 *.jpg
 *.jpeg
 app_logs.txt
+logs/app_logs.txt
