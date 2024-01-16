@@ -12,10 +12,10 @@
                 if ($user && ($post['author_id'] === $user['id'] || $user['is_admin'])){
                     $delete_post = "UPDATE posts SET is_deleted = '1' WHERE id = {$post['id']}";    
                     mysqli_query($conn, $delete_post);
-                    mysqli_close($conn);
                 } else{
                     show_not_authorised_error_modal();
                 }
+                mysqli_close($conn);
             }
         }
 ?>

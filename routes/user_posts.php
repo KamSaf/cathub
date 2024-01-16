@@ -19,6 +19,20 @@
 
     <header>
         <?php require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/header.php'); ?>
+
+        <div style='margin-top: 25px;' class="d-flex justify-content-between">
+            <div style="width: 30%;" class="p-2 bd-highlight"></div>
+            <div style="width: 40%;" class="p-2 bd-highlight">
+                <?php
+                    if ($_SESSION['logged_user']['id'] == $_GET['user']){
+                        echo "<div style='margin-bottom: 60px; background-color: #f8f9fa;' class='card text-center'>
+                                <a class='btn btn-secondary btn-sm' href='/cathub/routes/actions/export_stats.php?user={$_GET['user']}'>Export statistics to .rtf file</a>
+                            </div>";
+                    }
+                ?>
+            </div>
+            <div style="width: 30%;" class="p-2 bd-highlight"></div>
+        </div>
     </header>
 
     <body>
@@ -41,7 +55,6 @@
     </body>
 
     <footer>
-        
         <?php
             require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/footer.html');
             include_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/delete_modal.html');
