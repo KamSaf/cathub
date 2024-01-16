@@ -26,5 +26,3 @@
         <?php require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/html/footer.html'); ?>
     </footer>
 </html>
-
-
