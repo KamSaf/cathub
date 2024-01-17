@@ -28,12 +28,12 @@
         $author = get_user_by_id($conn, $comment['author_id']);
 
         $comments_output = "
-            <span id='comment_{$comment['id']}' style='border'>
+            <span id='comment_{$comment['id']}' style='border;'>
                 <b class='float-start'><a href='user_posts.php?user={$author['id']}'>{$author['username']}</a> on {$comment['comment_date']}</b>
         ";
 
         if ($_SESSION['logged_user']['id'] === $author['id'] || $_SESSION['logged_user']['is_admin'])
-            $comments_output .= "<button class='btn btn-danger float-start delete-comment-button' style='margin-left: 10px; padding: 0.25rem 0.25rem; font-size: 0.520rem;' data-comment-id='{$comment['id']}'>Delete</button>";
+            $comments_output .= "<button class='btn btn-danger float-start delete-comment-button' style='margin-left: 10px; padding: 0.25rem; font-size: 0.520rem;' data-comment-id='{$comment['id']}'>Delete</button>";
 
         $comments_output .= "
                 </br>
@@ -96,7 +96,7 @@
         }
 
         $output .= "
-                    Posted on: {$post['create_date']} by <a href='user_posts.php?user={$author['id']}'>{$author['username']}</a>
+                    <span class='float-end'>Posted on: {$post['create_date']} by <a href='user_posts.php?user={$author['id']}'>{$author['username']}</a></span>
                 </div>
                 <div class='collapse' id='comments_{$post['id']}'>
                     <div class='card card-body'>

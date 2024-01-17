@@ -5,7 +5,7 @@
 
     if ($_SERVER["REQUEST_METHOD"] === "GET") {
             if (isset($_GET["user"])) {
-                $user_id = $_GET["user"];    
+                $user_id = $_GET["user"];
                 $conn = new PDO ('mysql:host=localhost;dbname=cathub','root','');
                 $select_user_query = "SELECT * FROM users WHERE id = :user_id";
                 $prep = $conn->prepare($select_user_query);
@@ -20,23 +20,23 @@
                 $posts = $prep->fetchAll(PDO::FETCH_ASSOC);
                 $posts_count = count($posts);
 
-                $post_reactions_count = 0;
+                $posts_reactions_count = 0;
                 for ($i=0; $i < $posts_count; $i++){
                     $select_reactions_query = "SELECT id FROM post_user_reaction WHERE post_id = :post_id";
                     $prep = $conn->prepare($select_reactions_query);
                     $prep->bindParam(':post_id', $posts[$i]['id'], PDO::PARAM_INT);
                     $prep->execute();
                     $reactions = $prep->fetchAll(PDO::FETCH_ASSOC);
-                    $posts_reactions += count($reactions);
+                    $posts_reactions_count += count($reactions);
                 }
 
-
+                $posted_comments_count = 0;
                 $select_this_user_reactions_query = "SELECT id FROM post_user_reaction WHERE user_id = :user_id";
                 $prep = $conn->prepare($select_this_user_reactions_query);
                 $prep->bindParam(':user_id', $user_id, PDO::PARAM_INT);
                 $prep->execute();
                 $this_user_reactions = $prep->fetchAll(PDO::FETCH_ASSOC);
-                $this_user_reactions_count = count($this_user_reactions);
+                $this_user_reactions_count += count($this_user_reactions);
 
                 $select_posted_comments_query = "SELECT id FROM comments WHERE author_id = :user_id AND is_deleted = false";
                 $prep = $conn->prepare($select_posted_comments_query);
@@ -55,7 +55,7 @@
                 $output = str_replace('<EMAIL>', $user['email'], $output);
                 $output = str_replace('<REGISTER_DATE>', $user['reg_date'], $output);
                 $output = str_replace('<POSTS_CREATED>', $posts_count, $output);
-                $output = str_replace('<POSTS_REACTIONS>', $posts_reactions, $output);
+                $output = str_replace('<POSTS_REACTIONS>', $posts_reactions_count, $output);
                 $output = str_replace('<POSTS_REACTED_TO>', $this_user_reactions_count, $output);
                 $output = str_replace('<POSTED_COMMENTS>', $posted_comments_count, $output);            
             
