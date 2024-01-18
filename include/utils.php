@@ -17,7 +17,7 @@
     # Gets comments for chosen post from database
     function load_comments(string $post_id){
         $conn = open_db_connection();
-        $comments_query = "SELECT * FROM comments WHERE post_id = '{$post_id}' ORDER BY comment_date DESC";
+        $comments_query = "SELECT * FROM comments WHERE post_id = '{$post_id}' ORDER BY comment_date";
         $comments = mysqli_query($conn, $comments_query);
         mysqli_close($conn);
         return $comments;
@@ -28,7 +28,8 @@
         $author = get_user_by_id($conn, $comment['author_id']);
 
         $comments_output = "
-            <span id='comment_{$comment['id']}' style='border;'>
+        <li id='comment_{$comment['id']}' class='list-group-item'>
+            <span style='border;'>
                 <b class='float-start'><a href='user_posts.php?user={$author['id']}'>{$author['username']}</a> on {$comment['comment_date']}</b>
         ";
 
@@ -38,7 +39,7 @@
         $comments_output .= "
                 </br>
                 <p class='float-start'>{$comment['content']}</p>
-            </span>
+            </span></li>
         ";
 
         return $comments_output;
@@ -49,7 +50,6 @@
         $conn = open_db_connection();
         $author = get_user_by_id($conn, $post['author_id']);
         $comments = load_comments($post['id']);
-        $self_url = htmlspecialchars($_SERVER["PHP_SELF"]);
 
         $output = '';
         $output .= "
@@ -103,7 +103,6 @@
         ";
         if($_SESSION['logged']){
             $output .= "
-
                     <div class='container text-center'>
                         <button style='margin-top: 5px; margin-bottom: 20px; width: 30%;' class='btn btn-primary btn-sm' type='button' data-bs-toggle='collapse' data-bs-target='#comment_box_{$post['id']}' aria-expanded='false' aria-controls='comment_box_{$post['id']}'>
                             Comment
@@ -112,13 +111,13 @@
                     </div>
                 <div style='margin-bottom: 20px;' class='collapse' id='comment_box_{$post['id']}'>
                     <div class='card card-body'>
-                    <form action='{$self_url}' method='POST' enctype='multipart/form-data'>
-                        <input type='hidden' name='post_id' value='{$post['id']}'>
-                        <textarea name='comment_content' type='text' maxlength='150' cols='50' rows='5' required></textarea></br>
-                        <button name='publish' style='margin-top: 15px; margin-bottom: 15px;' class='btn btn-secondary' type='submit'>Publish</button>
-                    </form>
+                        <form method='POST' enctype='multipart/form-data'>
+                            <textarea name='frm_comment_content_{$post['id']}' type='text' maxlength='150' cols='50' rows='5' required></textarea></br>
+                            <button name='frm_publish_{$post['id']}' style='margin-top: 15px; margin-bottom: 15px;' class='btn btn-secondary create-comment-button' type='submit' data-post-id='{$post['id']}'>Publish</button>
+                        </form>
                     </div>
                 </div>
+                <ul id='comments_list_{$post['id']}' class='list-group list-group-flush'>
             ";
         }
 
@@ -129,6 +128,7 @@
         }
 
         $output .= "
+            </ul>
             </div>
             </div>
             </div>
@@ -250,9 +250,6 @@
         if ($user_id){
             $insert_comment = "INSERT INTO comments (author_id, post_id, content) VALUES ('{$user_id}', '{$post_id}', '{$content}')";    
             mysqli_query($conn, $insert_comment);
-            mysqli_close($conn);
-            header("Location: home.php");
-            exit;
         } else{
             show_not_authorised_error_modal();
         }

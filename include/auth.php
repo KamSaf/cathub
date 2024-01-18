@@ -1,5 +1,8 @@
 <?php
 
+    require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/database.php');
+    session_start();
+
     function save_log_user_login($username){
         $file_path = $_SERVER['DOCUMENT_ROOT']. '/cathub/logs/app_logs.txt';
         $file = fopen($file_path, 'a');
@@ -17,9 +20,6 @@
     function start_pdo_conn(){
         return new PDO ('mysql:host=localhost;dbname=cathub','root','');
     }
-
-    require_once($_SERVER['DOCUMENT_ROOT']. '/cathub/include/database.php');
-    session_start();
 
     // # Checks if user with provided email and password exists, if not returns -1 (OLD)
     // function user_login(string $email, string $password){

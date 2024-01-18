@@ -24,32 +24,26 @@ $(document).ready(function() {
     });
 });
 
-
-$(document).ready(function() {
-  $(".delete-comment-button").click(function() {
+$(document).on('click', '.delete-comment-button', function() {
     var commentId = $(this).data("commentId");
-
     $("#delete_item_button").data("commentId", commentId);
-
     $('#confirm_delete_modal').modal('show');
-  });
 
-  $("#delete_item_button").click(function() {
-    var commentId = $(this).data("commentId");
+    $("#delete_item_button").click(function() {
+      var commentId = $(this).data("commentId");
 
-    $.ajax({
-      type: "POST",
-      url: "/cathub/routes/actions/delete_comment.php",
-      data: {
-        commentId: commentId
-      },
-      success: function(response) {
-        console.log(response);
-        $("#comment_" + commentId).remove();
-        $('#confirm_delete_modal').modal('hide');
-      }
+      $.ajax({
+        type: "POST",
+        url: "/cathub/routes/actions/delete_comment.php",
+        data: {
+          commentId: commentId
+        },
+        success: function(response) {
+          $("#comment_" + commentId).remove();
+          $('#confirm_delete_modal').modal('hide');
+        }
+      });
     });
-  });
 });
 
 
@@ -76,4 +70,35 @@ $(document).ready(function() {
         }
       });
     });
+});
+
+$(document).ready(function() {
+  $(".create-comment-button").click(function(event) {
+    event.preventDefault();
+    var postId = $(this).data('postId');
+    var commentContent = $("[name='frm_comment_content_" + postId +"']").val();
+    $("[name='frm_comment_content_" + postId +"']").val('');
+
+    $.ajax({
+      type: "POST",
+      url: "/cathub/routes/actions/create_comment.php",
+      data: {
+        postId: postId,
+        commentContent: commentContent
+      },
+      success: function(response) {
+        $.ajax({
+          url: '/cathub/routes/actions/comments_refresh.php',
+          method: 'GET',
+          data: {
+            postId: postId,
+          },
+          success: function(response) {
+            $("#comments_list_" + postId).html(response);
+            $()
+          },
+        });
+      }
+    });
+  });
 });
