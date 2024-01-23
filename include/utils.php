@@ -33,7 +33,7 @@
                 <b class='float-start'><a href='user_posts.php?user={$author['id']}'>{$author['username']}</a> on {$comment['comment_date']}</b>
         ";
 
-        if ($_SESSION['logged_user']['id'] === $author['id'] || $_SESSION['logged_user']['is_admin'])
+        if ($_SESSION['logged_user']['id'] == $author['id'] || $_SESSION['logged_user']['is_admin'])
             $comments_output .= "<button class='btn btn-danger float-start delete-comment-button' style='margin-left: 10px; padding: 0.25rem; font-size: 0.520rem;' data-comment-id='{$comment['id']}'>Delete</button>";
 
         $comments_output .= "
@@ -88,7 +88,7 @@
             <div class='card-footer text-muted'>
         ";
 
-        if($_SESSION['logged_user'] && ($_SESSION['logged_user']['id'] === $author['id'] || $_SESSION['logged_user']['is_admin'])){
+        if($_SESSION['logged_user'] && ($_SESSION['logged_user']['id'] == $author['id'] || $_SESSION['logged_user']['is_admin'])){
             $output .= "
                 <a class='btn btn-danger btn-sm float-start delete-post-button' data-post-id='{$post['id']}'>Delete post</a>
                 <a style='margin-left: 15px;' href='new_post.php?post_id={$post['id']}' class='btn btn-secondary btn-sm float-start' data-post-id='{$post['id']}'>Edit post</a>

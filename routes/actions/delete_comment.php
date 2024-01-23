@@ -9,7 +9,7 @@
                 $conn = open_db_connection();
                 $comment = get_comment_by_id($conn, $comment_id);
                 $user = $_SESSION['logged_user'];
-                if ($user && ($comment['author_id'] === $user['id'] || $user['is_admin'])){
+                if ($user && ($comment['author_id'] == $user['id'] || $user['is_admin'])){
                     $delete_comment = "DELETE FROM comments WHERE id = '{$comment_id}'";    
                     mysqli_query($conn, $delete_comment);
                 } else{
