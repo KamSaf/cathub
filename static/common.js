@@ -41,6 +41,7 @@ $(document).on('click', '.delete-comment-button', function() {
         success: function(response) {
           $("#comment_" + commentId).remove();
           $('#confirm_delete_modal').modal('hide');
+          console.log(response);
         }
       });
     });
@@ -95,7 +96,6 @@ $(document).ready(function() {
           },
           success: function(response) {
             $("#comments_list_" + postId).html(response);
-            $()
           },
         });
       }

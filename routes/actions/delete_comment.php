@@ -12,11 +12,12 @@
                 if ($user && ($comment['author_id'] == $user['id'] || $user['is_admin'])){
                     $delete_comment = "DELETE FROM comments WHERE id = '{$comment_id}'";    
                     mysqli_query($conn, $delete_comment);
+                    echo json_encode(array('result'=>'operation successful'));
                 } else{
                     show_not_authorised_error_modal();
+                    echo json_encode(array('result'=>'operation failed'));
                 }
                 mysqli_close($conn);
-                echo json_encode(array('result'=>'false'));
             }
         }
 ?>

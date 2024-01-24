@@ -9,7 +9,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="/cathub/static/common.js"></script>
         <title>CatHub 🐱</title>
-        <link rel="icon" href="images/facivon.ico" type="image/x-icon">
+        <!-- <link rel="icon" href="images/facivon.ico" type="image/x-icon"> -->
     </head>
 
     <?php 
