@@ -3,6 +3,7 @@
 Basic blog created with PHP and MySQL. It's a project created as a final project for academic Web Technologies classes.
 
 
+![2](https://github.com/KamSaf/cathub/assets/116653905/06a1c209-f96a-4cb0-9a57-a9d1e5c8835b)
 
 
 -------------------------------------------------------
@@ -45,9 +46,13 @@ This project was built with LAMPP platform.
 -------------------------------------------------------
 
 # GIFs
-![reaction](https://github.com/KamSaf/cathub/assets/116653905/b945a313-8440-4718-8501-5f1fc1ee6a50)
 
-![new_post](https://github.com/KamSaf/cathub/assets/116653905/165112e0-5f43-4091-9587-402c360ce98d)
+
+![1](https://github.com/KamSaf/cathub/assets/116653905/11fed81f-c15d-48eb-a026-3fe419bd2975)
+![4](https://github.com/KamSaf/cathub/assets/116653905/518ef251-78d9-4271-acba-006069138016)
+![3](https://github.com/KamSaf/cathub/assets/116653905/cd2c2d90-f7b8-421a-b8e3-52fb91e20162)
+![2](https://github.com/KamSaf/cathub/assets/116653905/b0d96b0a-cff9-40ef-92bd-35d5116a8344)
+
 
 
 
