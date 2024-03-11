@@ -2,7 +2,7 @@
 
 Basic blog created with PHP and MySQL. It's a project created as a final project for academic Web Technologies classes.
 
-<img align="center" src="https://github.com/KamSaf/cathub/assets/116653905/06a1c209-f96a-4cb0-9a57-a9d1e5c8835b" width="70%" height="70%"/>
+<p align="center"><img src="https://github.com/KamSaf/cathub/assets/116653905/06a1c209-f96a-4cb0-9a57-a9d1e5c8835b" width="70%" height="70%"/></p>
 
 
 -------------------------------------------------------
