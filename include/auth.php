@@ -33,7 +33,7 @@
     //             session_start();
     //             $_SESSION['logged'] = true;
     //             $_SESSION['logged_user'] = $user;
-    //             header("Location: home.php");
+    //             header("Location: index.php");
     //             exit;
     //         }
     //     mysqli_close($conn);
@@ -55,7 +55,7 @@
                 $_SESSION['logged'] = true;
                 $_SESSION['logged_user'] = $user;
                 save_log_user_login($user['username']);
-                header("Location: home.php");
+                header("Location: index.php");
                 exit;
             }
         }

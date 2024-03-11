@@ -213,7 +213,7 @@
             }
             mysqli_query($conn, $insert_post);
             mysqli_close($conn);
-            header("Location: home.php");
+            header("Location: index.php");
             exit;
         } else{
             show_not_authorised_error_modal();
@@ -235,7 +235,7 @@
             }
             mysqli_query($conn, $update_post);
             mysqli_close($conn);
-            header("Location: home.php");
+            header("Location: index.php");
             exit;
         } else{
             show_not_authorised_error_modal();

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a href="home.php" class="navbar-brand">CatHub 🐱</a>
+        <a href="index.php" class="navbar-brand">CatHub 🐱</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href='about.php'>About</a></li>
@@ -14,7 +14,7 @@
                     }
                 ?>
             </ul>
-            <form method="GET" action="home.php">
+            <form method="GET" action="index.php">
                 <?php
                     $navbar_auth = '';
                     if ($_SESSION['logged']){
