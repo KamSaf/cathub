@@ -2,6 +2,9 @@
 
 Basic blog created with PHP and MySQL. It's a project created as a final project for academic Web Technologies classes.
 
+
+
+
 -------------------------------------------------------
 
 # Technologies and tools used:
@@ -42,4 +45,12 @@ This project was built with LAMPP platform.
 -------------------------------------------------------
 
 # GIFs
+![reaction](https://github.com/KamSaf/cathub/assets/116653905/b945a313-8440-4718-8501-5f1fc1ee6a50)
+
+![new_post](https://github.com/KamSaf/cathub/assets/116653905/165112e0-5f43-4091-9587-402c360ce98d)
+
+
+
+
+
 
