@@ -47,7 +47,7 @@
 
                 $conn = null;
 
-                $file_path = $_SERVER['DOCUMENT_ROOT']. '/cathub/rtf_template/exported_data.rtf';            
+                $file_path = $_SERVER['DOCUMENT_ROOT']. '/cathub/rtf_template/template';            
                 $file_template = fopen($file_path, 'r');            
                 $output = fread($file_template, filesize($file_path));
                 
