@@ -47,16 +47,16 @@ This project was built with LAMPP platform.
 # GIFs
 
 
-![1](https://github.com/KamSaf/cathub/assets/116653905/11fed81f-c15d-48eb-a026-3fe419bd2975)
+<p align="center"><img src="https://github.com/KamSaf/cathub/assets/116653905/11fed81f-c15d-48eb-a026-3fe419bd2975" width="70%" height="70%"/></p>
 
 
-![4](https://github.com/KamSaf/cathub/assets/116653905/518ef251-78d9-4271-acba-006069138016)
+<p align="center"><img src="https://github.com/KamSaf/cathub/assets/116653905/518ef251-78d9-4271-acba-006069138016" width="70%" height="70%"/></p>
 
 
-![3](https://github.com/KamSaf/cathub/assets/116653905/cd2c2d90-f7b8-421a-b8e3-52fb91e20162)
+<p align="center"><img src="https://github.com/KamSaf/cathub/assets/116653905/cd2c2d90-f7b8-421a-b8e3-52fb91e20162" width="70%" height="70%"/></p>
 
 
-![2](https://github.com/KamSaf/cathub/assets/116653905/b0d96b0a-cff9-40ef-92bd-35d5116a8344)
+<p align="center"><img src="https://github.com/KamSaf/cathub/assets/116653905/b0d96b0a-cff9-40ef-92bd-35d5116a8344" width="70%" height="70%"/></p>
 
 
 
