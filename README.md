@@ -41,7 +41,7 @@ This project was built with LAMPP platform.
 - Logged used can create, edit and delete their posts,
 - Commenting on other users posts,
 - Reacting to other users posts,
-- User can export his account data, including statistics about the number of his posts, comment, and reactions, to .rtf file,
+- User can export his account data, including statistics about his posts, comments and reactions to .rtf file,
 
 -------------------------------------------------------
 
