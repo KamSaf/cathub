@@ -28,11 +28,11 @@ Go to ```http://localhost/cathub/routes/```.
 
 Features
 
-    - User registration and authentication system with secure password hashing,
-    - Logged used can create, edit and delete their posts,
-    - Commenting on other users posts,
-    - Reacting to other users posts,
-    - User can export his account data, including statistics about the number of his posts, comment, and reactions, to .rtf file,
+- User registration and authentication system with secure password hashing,
+- Logged used can create, edit and delete their posts,
+- Commenting on other users posts,
+- Reacting to other users posts,
+- User can export his account data, including statistics about the number of his posts, comment, and reactions, to .rtf file,
 
 
 GIFs
