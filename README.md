@@ -1,9 +1,10 @@
-Overview
+# Overview
 
 Basic blog created with PHP and MySQL. It's a project created as a final project for academic Web Technologies classes.
 
+-------------------------------------------------------
 
-Technologies and tools used:
+# Technologies and tools used:
 
 - PHP 8.2.4,
 - MySQL (MariaDB),
@@ -14,21 +15,23 @@ Technologies and tools used:
 
 Thanks to JavaScript and jQuery AJAX implementation actions performed by the user are run asynchronously, which means things like newly created comments or added reactions are displayed without the need of reloading full page.
 
+-------------------------------------------------------
 
-How to run:
+# How to run:
 
 This project was built with LAMPP platform.
 
-To run it, copy repository to the ```htdocs/``` directory in the main XAMPP/LAMPP directory.
+1. Clone repository to the ```htdocs/``` directory in the main XAMPP/LAMPP directory.
 
-Run XAMPP/LAMPP built-in Web Server and MySQL database server.
+2. Run XAMPP/LAMPP built-in Web Server and MySQL database server.
 
-Import database template which is located in ```database_template/``` of the project.
+3. Import database template which is located in ```database_template/``` of the project.
 
-Go to ```http://localhost/cathub/routes/```.
+4. Go to ```http://localhost/cathub/routes/```.
 
+-------------------------------------------------------
 
-Features
+# Features
 
 - User registration and authentication system with secure password hashing,
 - Logged used can create, edit and delete their posts,
@@ -36,6 +39,7 @@ Features
 - Reacting to other users posts,
 - User can export his account data, including statistics about the number of his posts, comment, and reactions, to .rtf file,
 
+-------------------------------------------------------
 
-GIFs
+# GIFs
 
