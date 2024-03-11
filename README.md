@@ -2,13 +2,15 @@ Overview
 
 Basic blog created with PHP and MySQL. It's a project created as a final project for academic Web Technologies classes.
 
+
 Technologies and tools used:
-    - PHP 8.2.4,
-    - MySQL (MariaDB),
-    - LAMPP,
-    - JavaScript
-    - JQuery,
-    - Bootstrap5,
+
+- PHP 8.2.4,
+- MySQL (MariaDB),
+- LAMPP,
+- JavaScript
+- JQuery,
+- Bootstrap5,
 
 Thanks to JavaScript and jQuery AJAX implementation actions performed by the user are run asynchronously, which means things like newly created comments or added reactions are displayed without the need of reloading full page.
 
